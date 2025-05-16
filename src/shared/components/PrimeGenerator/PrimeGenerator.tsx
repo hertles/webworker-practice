@@ -67,6 +67,8 @@ export default function PrimeGenerator() {
       workerRef.current?.removeEventListener("message", handleGenerate);
   }, []);
 
+  const primeGenerationProgress = prime ? (prime / Number(limitStr)) * 100 : 0;
+
   return (
     <form onSubmit={generatePrimes}>
       <Stack gap={2}>
@@ -86,16 +88,16 @@ export default function PrimeGenerator() {
           Рассчитать
         </Button>
         <Chip label={prime ?? "---"} color={isDone ? "success" : undefined} />
-        {isGenerating && prime && (
-          <LinearProgress
-            variant="determinate"
-            value={(prime / Number(limitStr)) * 100}
-          />
-        )}
         {isGenerating && (
-          <Button onClick={handleInterrupt} variant="contained">
-            Прервать
-          </Button>
+          <>
+            <LinearProgress
+              variant="determinate"
+              value={primeGenerationProgress}
+            />
+            <Button onClick={handleInterrupt} variant="contained">
+              Прервать
+            </Button>
+          </>
         )}
       </Stack>
     </form>
